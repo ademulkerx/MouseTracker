@@ -13,7 +13,6 @@ namespace MouseTracker
 {
     public partial class Form1 : Form
     {
-
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool GetCursorPos(out POINT lpPoint);
@@ -34,6 +33,14 @@ namespace MouseTracker
             timer.Interval = 50; // Koordinatları her 50 ms'de bir günceller
             timer.Tick += Timer_Tick;
             timer.Start();
+
+            // NotifyIcon nesnesi oluştur ve ayarla
+            MouseTracker_ = new NotifyIcon();
+            MouseTracker_.Text = "MouseTracker";
+            MouseTracker_.Visible = true;
+
+            // NotifyIcon'a çift tıklama olayı ekle
+            MouseTracker_.MouseDoubleClick += TrayIcon_MouseDoubleClick;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -57,8 +64,30 @@ namespace MouseTracker
             g.Dispose();
             return color;
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.ShowInTaskbar = false; // Görev çubuğunda gösterme
+        }
+
+        private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            // Çift tıklandığında formu göster
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MouseTracker_.Visible = false;
+            MouseTracker_.Dispose();
+            Application.Exit();
+        }
     }
 }
+
+
 
 // Açıklama: Bu uygulama mouse'nin ekran kordinatları ve bulunduğu pixelin RGB kodlarını gösterir.
 // Tarih: 13 Nisan 2024

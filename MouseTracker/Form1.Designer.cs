@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.MouseTracker_ = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -55,6 +57,12 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "R: {255}, G: {255}, B: {255}";
             // 
+            // MouseTracker_
+            // 
+            this.MouseTracker_.Icon = ((System.Drawing.Icon)(resources.GetObject("MouseTracker_.Icon")));
+            this.MouseTracker_.Text = "notifyIcon1";
+            this.MouseTracker_.Visible = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -70,6 +78,8 @@
             this.Name = "Form1";
             this.Text = "MouseTracker";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -79,6 +89,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NotifyIcon MouseTracker_;
     }
 }
 
