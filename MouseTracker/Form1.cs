@@ -68,6 +68,7 @@ namespace MouseTracker
         private void Form1_Load(object sender, EventArgs e)
         {
             this.ShowInTaskbar = false; // Görev çubuğunda gösterme
+            this.Location = Properties.Settings.Default.WindowLocation;
         }
 
         private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -81,6 +82,9 @@ namespace MouseTracker
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             MouseTracker_.Visible = false;
+            Properties.Settings.Default.WindowLocation = this.Location;
+            Properties.Settings.Default.Save(); // Ayarları kaydet
+
             MouseTracker_.Dispose();
             Application.Exit();
         }
