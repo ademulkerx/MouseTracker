@@ -68,7 +68,22 @@ namespace MouseTracker
         private void Form1_Load(object sender, EventArgs e)
         {
             this.ShowInTaskbar = false; // Görev çubuğunda gösterme
-            this.Location = Properties.Settings.Default.WindowLocation;
+
+            Point savedLocation = Properties.Settings.Default.WindowLocation;
+            Rectangle primaryScreenBounds = Screen.PrimaryScreen.Bounds;
+
+            // Kaydedilmiş konum mevcut ekranlarda mı kontrol et
+            bool isValidLocation = Screen.AllScreens.Any(screen => screen.Bounds.Contains(savedLocation));
+
+            if (isValidLocation)
+            {
+                this.Location = savedLocation;
+            }
+            else
+            {
+                // Eğer geçersiz bir konumdaysa ana ekranın ortasına taşı
+                this.StartPosition = FormStartPosition.CenterScreen;
+            }
         }
 
         private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -81,7 +96,8 @@ namespace MouseTracker
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MouseTracker_.Visible = false;
+            //this.Location.X = this.Location.X >
+            //MouseTracker_.Visible = false;
             Properties.Settings.Default.WindowLocation = this.Location;
             Properties.Settings.Default.Save(); // Ayarları kaydet
 
